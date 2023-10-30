@@ -23,11 +23,11 @@ jobs:
           metadata-file-path: '.github/project.yml'
           local-file: true
 
-      - name: Install JDK 11
+      - name: Install JDK 8
         uses: joschi/setup-jdk@e87a7cec853d2dd7066adf837fe12bf0f3d45e52
         with:
           distribution: 'temurin'
-          java-version: 11
+          java-version: 8
           server-id: ossrh
           server-username: MAVEN_USERNAME
           server-password: MAVEN_CENTRAL_TOKEN
