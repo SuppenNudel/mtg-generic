@@ -1,0 +1,66 @@
+name: Release
+
+on:
+  pull_request:
+    types: [closed]
+    paths:
+      - '.github/project.yml'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: release
+    if: $
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: radcortez/project-metadata-action@master
+        name: Retrieve project metadata
+        id: metadata
+        with:
+          github-token: $
+          metadata-file-path: '.github/project.yml'
+          local-file: true
+
+      - name: Install JDK 11
+        uses: joschi/setup-jdk@e87a7cec853d2dd7066adf837fe12bf0f3d45e52
+        with:
+          distribution: 'temurin'
+          java-version: 11
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_CENTRAL_TOKEN
+          gpg-private-key: $
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Configure Git author
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Maven release $
+        run: |
+          git checkout -b release
+          mvn -X -Prelease -B release:clean release:prepare -DreleaseVersion=$ -DdevelopmentVersion=$
+          git checkout $
+          git rebase release
+          mvn -X -Prelease -B release:perform -DskipTests
+        env:
+          MAVEN_USERNAME: $
+          MAVEN_CENTRAL_TOKEN: $
+          MAVEN_GPG_PASSPHRASE: $
+
+      - name: Push changes to $
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: $
+          branch: $
+          force: true
+
+      - name: Push tags
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          branch: $
+          github_token: $
+          tags: true
