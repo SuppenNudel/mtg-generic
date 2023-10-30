@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class GenericDeckInfo implements GenericDeckInfoInterface {
+public abstract class MtgDeckInfo implements MtgDeckInfoInterface {
 
 	public enum ListSection {
 		MAIN, SIDEBOARD;
@@ -23,7 +23,7 @@ public abstract class GenericDeckInfo implements GenericDeckInfoInterface {
 	private LocalDate date;
 	private String source;
 
-	public GenericDeckInfo(String name) {
+	public MtgDeckInfo(String name) {
 		this.name = name;
 	}
 
@@ -34,8 +34,8 @@ public abstract class GenericDeckInfo implements GenericDeckInfoInterface {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof GenericDeckInfo) {
-			GenericDeckInfo other = (GenericDeckInfo) obj;
+		if (obj instanceof MtgDeckInfo) {
+			MtgDeckInfo other = (MtgDeckInfo) obj;
 			boolean result = other.toString().equals(toString());
 			return result;
 		}

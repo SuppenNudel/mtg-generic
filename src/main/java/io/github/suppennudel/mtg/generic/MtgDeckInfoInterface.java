@@ -3,7 +3,7 @@ package io.github.suppennudel.mtg.generic;
 import java.time.LocalDate;
 import java.util.Map;
 
-public interface GenericDeckInfoInterface {
+public interface MtgDeckInfoInterface {
 
 	Map<String, Integer> getCombined();
 	String getName();
